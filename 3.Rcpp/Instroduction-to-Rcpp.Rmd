@@ -1,0 +1,144 @@
+---
+title: "Rcpp简介"
+author: "Milton Deng"
+date: "Sunday, November 29, 2015"
+output: html_document
+---
+
+Rcpp 是由 Dirk Eddelbuettel 和 Romain Francois 共同开发的一个R语言包，它实现了 R 语言和 C++ 之间便捷的接口。Rcpp 在 C++ 中建立了完善的类（Class）来表示 vector, matrix, data.frame, environment, function 等几乎所有的R语言数据结构，同时也提供了非常方便的交互接口，使得我们能够非常方便的在两种语言中调用另一种语言更高效地完成计算。
+
+这里我们从应用层面介绍 Rcpp 的一些使用方法，即使你从没有接触过 C++ 也能读懂本文的示例代码，并很快将这个工具利用到你的研究分析中。对于做经济和金融研究的我们来说，我们在此并不特别关注它相关的机制，而是重点介绍如何利用 Rcpp 来实现一些 R 本身难以实现的复杂或大规模运算。
+
+## 一个简单的例子
+
+我们首先通过一个简单的例子来了解 C++ 简单的语法，以及如何实现 Rcpp 与 R 之间的交互。这个例子中我们分别使用 R 语言和 Rcpp 写一个对向量元素求和的函数。这个计算本身可以直接使用`sum()`来实现，我们将在最后比较这三个函数的运算效率。
+
+(这个例子来自于[Advanced R - High performance functions with Rcpp](http://adv-r.had.co.nz/Rcpp.html))
+
+R语言版本：
+```{r}
+sumR <- function(x) {
+  total <- 0
+  for (i in seq_along(x)) {
+    total <- total + x[i]
+  }
+  total
+}
+```
+
+C++ 版本：
+```{r, eval=FALSE}
+library(Rcpp)
+
+cppFunction('double sumC(NumericVector x) {
+  int n = x.size();
+  double total = 0;
+  for(int i = 0; i < n; ++i) {
+    total += x[i];
+  }
+  return total;
+}')
+```
+
+（注：正确编译上面的函数需要[下载Rtools](http://cran.rstudio.com/bin/windows/Rtools/)并安装。）
+```{r, eval=FALSE}
+x <- runif(1e3)
+
+library(microbenchmark)
+
+microbenchmark(
+  sum(x),
+  sumC(x),
+  sumR(x)
+)
+```
+
+关于上面的程序有几点需要简单说明：
+
+- 这里用到的C++语法非常简单，即使你从没有学习过C++也能大概猜到这些代码是如何运行的。而幸运的是，了解这些简单的C++语法已经能帮助你解决大部分的模拟、迭代和算法问题。
+
+- C++ 是强类型语言，任何变量在使用前都需要初始化，并指明数据类型；
+
+- 传入的参数类型 `NumericVector` 是 Rcpp 已经实现的类(Class)。R 语言中的常用数据结构 vector, data.frame, list, environment 甚至 function 等所有这些数据结构在 C++ 中都实现了对应，并且实现了基本的数据操作方法。
+
+- C++ 中 for 语句的写法和 R 略有区别。此外尤其需要注意的是，C++中向量（或数组）的下表都是从0开始的！
+
+下面这个例子是Gibbs抽样的一个实现。Gibbs抽样在Monte Carlo模拟中非常重要。事实上，这类需要大量重复计算的模型或算法在计算金融的研究中经常遇到，而Rcpp能够为这类问题提供非常好的解决办法。目前很多和算法相关的R语言包内部也是通过C或C++来实现的。
+
+(这个例子来自于 Dirk Eddelbuettel 的博客)
+
+```{r, eval=FALSE}
+gibbs_r <- function(N, thin) {
+  mat <- matrix(nrow = N, ncol = 2)
+  x <- y <- 0
+
+  for (i in 1:N) {
+    for (j in 1:thin) {
+      x <- rgamma(1, 3, y * y + 4)
+      y <- rnorm(1, 1 / (x + 1), 1 / sqrt(2 * (x + 1)))
+    }
+    mat[i, ] <- c(x, y)
+  }
+  mat
+}
+```
+
+```{r, eval=FALSE}
+sourceCpp("3.Rcpp/gibbs_sampler.cpp")
+
+microbenchmark(
+  gibbs_r(100, 10),
+  gibbs_cpp(100, 10)
+)
+```
+
+这里需要额外指出的是，C++本身没有rgamma()，rnorm()，sqrt()这些函数，然而在Rcpp中我们仍然能够顺畅地使用它们。关于这一机制可以参考[Seamless R and C++ Integration with Rcpp](http://www.rcpp.org/book/)第八章Sugar。
+
+相信你这两个例子已经能够使你了解Rcpp的一些特点以及如何写出高效而简练的C++代码！
+
+## 计算实例
+
+我们这里举两个的例子来说明Rcpp的更深入的应用。这些例子要完成的任务都并不复杂，但是提供了一些解决大型问题的思路。
+
+### 实例一：交易策略模拟
+
+```{r, eval=FALSE}
+sourceCpp("backtest.cpp")
+set.seed(123)
+p <- cumsum(rnorm(1e3, mean = 1, sd = 50))
+plot(p, type = 'l')
+
+balance <- backtest(p, params = list(K = 15, BKRatio = 1.5))
+plot(balance, type = 'l')
+```
+
+这段代码提供了交易策略模拟的一个极简化的雏形。我们构建了一个Trader类，用来管理和记录我们的模拟交易。`Trader`实现了模拟下单（place_order），记录账户权益（balance），记录头寸（position），结算浮动盈亏（settle）等几个基础的功能。给定一段价格序列`p`和一组参数`params`，`trader`都会按照指定逻辑记录下每个时刻所要发生的事情，就好像真的有一个交易员在听我们的指挥操作一样。
+
+我们这里的交易逻辑也非常简单：当第i期的价格减第i-K期价格大于BKRatio时，我们建仓，直到仓位达到10；当第i-K期价格小于-0.2*BKRatio时，平掉所有仓位。
+
+至少在我们这次模拟中还是赚钱的 :)
+
+### 实例二：大规模运算
+
+这是我之前实际遇到过的一个例子。我们有大概4万家商铺的各类信息，对于每一家商铺我们想找到它周围50米范围内有哪些其他商铺，以便于我们之后刻画商铺周边的情况。粗略想起来这个问题好像并不复杂，因为一般情况下我们很容易建立一个距离矩阵来刻画任意两个个体之间的距离。然而仔细去想的话，如果对4万家商铺两两求距离要进行16亿次的运算，并且如果采用一个矩阵来记录两两距离的话，我们也需要一个4万*4万的矩阵。尽管这是可行的，但显然不是一个最优的方案。下面这个例子给出了一个较为精简的解决方案，对于16亿的计算规模，它的运行时间也在2分钟以内。
+
+```{r, eval=FALSE}
+positions <- data.frame(ID = 1:1e3,
+                        LONG = rnorm(1e3, sd = 0.01) + 118.1, 
+                        LAT = rnorm(1e3, sd = 0.01) + 24.46)
+
+sourceCpp("calc_dist.cpp")
+neighbors <- lapply(positions$ID, get_neighbors, 24.46, positions)
+```
+
+## 参考资料
+
+1. [Rcpp 的 Github 主页](https://github.com/RcppCore/Rcpp)
+
+2. [Rcpp Introduction](https://cran.r-project.org/web/packages/Rcpp/vignettes/Rcpp-introduction.pdf)
+
+3. [Advanced R - High performance functions with Rcpp](http://adv-r.had.co.nz/Rcpp.html) 介绍了 Rcpp 的简明方法，相关章节还介绍了 R 语言的运行效率问题。本文的部分例子来自于这里。
+
+4. [Rcpp Gallery](http://gallery.rcpp.org/) 提供了近百个 Rcpp 应用的简明实例。
+
+5. [Seamless R and C++ Integration with Rcpp](http://www.rcpp.org/book/) 这本书详尽介绍了 Rcpp 的相关机制和应用方法。
