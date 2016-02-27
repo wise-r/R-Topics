@@ -1,0 +1,39 @@
+---
+title: "Habits"
+author: "John Doe"
+date: "March 22, 2005"
+output: 
+  beamer_presentation: 
+    colortheme: dolphin
+    fonttheme: serif
+    incremental: yes
+    theme: Madrid
+---
+
+# In the morning
+
+## Getting up
+
+- Turn off alarm
+- Get out of bed
+
+## Breakfast
+
+- Eat eggs
+- Drink coffee
+
+# In the evening
+
+## Dinner
+
+- Eat spaghetti
+- Drink wine
+
+----
+
+![picture of spaghetti](img/doge.jpg)
+
+## Going to sleep
+
+- Get in bed
+- Count sheep

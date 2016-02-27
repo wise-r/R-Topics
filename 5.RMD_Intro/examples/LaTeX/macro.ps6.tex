@@ -1,0 +1,471 @@
+
+\documentclass[12pt]{article}
+
+\usepackage{lipsum}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{verbatim}
+\usepackage{graphicx}
+\usepackage[T1]{fontenc}
+\usepackage{multirow} 
+\usepackage[body={16cm,24cm}, top=3cm]{geometry}
+\geometry{papersize={21.59cm,27.94cm}}
+
+\parindent=0in
+\pagestyle{headings}
+
+\begin{document}
+
+%\title{\textbf{Macro II Problem Set 6}}
+\title{
+ \textbf{Macro II Problem Set 6 }\\
+  \large Welfare Analysis of Practical Monetary Policy Rules\\
+   within the Basic New Keyesian Model}
+
+\author{
+  QK\\
+  \texttt{277201411527XX}
+  \and
+ CSS\\
+  \texttt{277201411527XX}
+}
+\maketitle
+
+\section{Part I. A Taylor-type Interest Rate Rule.}  %% PART I
+\subsection{\dots Write out the entries in the new vector $\tilde{B}_{t}$} %problem 1
+\normalsize{\textbf{A.N.S:}}
+Assuming that variations in the technology parameter $a_t$ represent the only driving force in the economy, and are described by a stationary AR(1) process with autoregressive coefficient $\rho_a$, the following equality holds:
+\begin{equation}
+\begin{aligned}
+\hat{r}_{t}^{n}-v_{t} &= -\sigma\psi^{n}_{ya}(1-\rho_{a})a_{t}-\phi_{y}\psi^{n}_{ya}a_{t}\\
+&=-\psi^{n}_{ya}[\sigma(1-\rho_{a})+\phi_{y}]a_{t}
+\end{aligned}
+\end{equation}
+Then, we have:
+\begin{equation}
+\begin{aligned}
+B_{T}(\hat{r_{t}}^{n}-v_{t})&=-B_{T}(\psi^{n}_{ya}[\sigma(1-\rho_{a})+\phi_{y}])a_{t}\\
+& = \tilde{B}_{t}a_{t}
+\end{aligned}
+\end{equation}
+\[ \Longrightarrow   \tilde{B}_{t}= -B_{T}(\psi^{n}_{ya}[\sigma(1-\rho_{a})+\phi_{y}]) \]
+
+\subsection{Show how to compute $var(a_t)$?, And what is the value of $var(a_t)$? }%problem 2
+\textbf{A.N.S:} For $a_t=\rho_{a}a_{t-1}+\varepsilon_{t}^{a}$, 
+\begin{equation*}
+Var(a_t) = \rho_a^2 Var(a_{t-1})+Var(\varepsilon_{t}^{a})
+\end{equation*}
+Assume $Var(a_t) = Var(a_{t-1})$, we can find:
+\begin{equation}
+Var(a_{t}) = \frac{Var(\varepsilon_{t}^{a})}{1- \rho_a^2 } = \frac{\sigma_{a}^2}{1- \rho_a^2 } \label{eq3}
+\end{equation}
+Substitute $\sigma_{a}^2 = 0.00712^2$ and $\rho_a = 0.9$ into equation (\ref{eq3}), we can compute 
+\[Var(a_{t})= 2.6681\times 10^{-4} \]
+
+\subsection{Please show how to compute $Var(\tilde{y}_{t})$ and $Var(\pi_{t})$ as a function of $var(a_t)$ } %problem 3
+\textbf{A.N.S:} Consider the DIS and NKPC system:
+\begin{equation}
+\left[
+\begin{array}{c}
+ \tilde{y}_{t}\\
+ \pi_{t}
+\end{array}
+\right] = A_T
+\left[
+\begin{array}{c}
+E_{t}\{\tilde{y}_{t+1}\}\\
+E_{t}\{ \pi_{t+1}\}
+\end{array}
+\right]+ \tilde{B}_{T}a_t\label{eq4}
+\end{equation}
+where ,
+\begin{gather*}
+ A_T = 
+\left(
+\begin{array}{cc}
+ \sigma & 1-\beta\phi_{\pi}      \\
+  \kappa\sigma & \kappa+\beta(\sigma+\phi_y)        
+\end{array}
+\right)\Omega\\
+ \tilde{B}_{t}= -B_{T}(\psi^{n}_{ya}[\sigma(1-\rho_{a})+\phi_{y}])\\
+B_{T} =\left[
+\begin{array}{c}
+1\\
+\kappa
+\end{array}
+\right]\Omega\\
+\kappa = \lambda(\sigma+\frac{\varphi+\alpha}{1-\alpha})\\
+\lambda = \frac{(1-\theta)(1-\beta\theta)}{\theta}\Theta\\
+\Theta = \frac{1-\alpha}{1-\alpha-\alpha\varepsilon}
+\end{gather*}
+Rewrite Equation(\ref{eq4}) in a recursive form:
+\begin{equation}
+\begin{aligned}
+\left[
+\begin{array}{c}
+ \tilde{y}_{t}\\
+ \pi_{t}
+\end{array}
+ \right] &= A_T 
+ \{
+ A_T
+\left[
+\begin{array}{c}
+E_{t}\{\tilde{y}_{t+2}\}\\
+E_{t}\{ \pi_{t+2}\}
+\end{array}
+\right]+ \tilde{B}_{T}a_{t+1}
+ \}+ \tilde{B}_{T}a_t\\
+ & = (A_T)^2\left[
+\begin{array}{c}
+E_{t}\{\tilde{y}_{t+2}\}\\
+E_{t}\{ \pi_{t+2}\}
+\end{array}
+\right]+A_T\rho_a\tilde{B}_{T}a_{t}+\tilde{B}_{T}a_t\\
+&\qquad\vdots\qquad\vdots\qquad\vdots\\
+&=(A_T)^{\infty}\left[
+\begin{array}{c}
+E_{t}\{\tilde{y}_{\infty}\}\\
+E_{t}\{ \pi_{\infty}\}
+\end{array}
+\right]+\sum_{i=0}^{\infty}(A_T\rho_a)^{i}\tilde{B}_{T}a_{t}\\
+& = (I_2 - \rho_a A_T)^{-1} \tilde{B}_{T}a_{t}
+\end{aligned}
+\end{equation}
+Denote $2\times 1$ vector $ C = (I_2 - \rho_a A_T)^{-1} \tilde{B}_{T} $, thus,
+\begin{gather}
+  var(\tilde{y}_{t}) = [C(1)]^2 var(a_t)\\
+  var(\pi_{t}) = [C(2)]^2 var(a_t)
+\end{gather}
+where $C(i)$ is the $i-th$ element of $C$
+
+
+
+%We can rewrite equation (\ref{eq4}) as :
+%\begin{gather}
+%\tilde{y}_{t} =  \sigma\Omega E_{t}\{\tilde{y}_{t+1}\}+ (1-\beta\phi_{\pi} )\Omega E_{t}\{ \pi_{t+1}\}-\Omega(\psi^{n}_{ya}[\sigma(1-\rho_{a})+\phi_{y}])a_{t}\\
+%\pi_{t} =  \kappa\sigma\Omega E_{t}\{\tilde{y}_{t+1}\} + (\kappa+\beta(\sigma+\phi_y))\Omega E_{t}\{ \pi_{t+1}\}-\Omega\kappa(\psi^{n}_{ya}[\sigma(1-\rho_{a})+\phi_{y}])a_{t}
+%\end{gather}
+%Assume $Var(\tilde{y}_{t})=Var(E_{t}\{\tilde{y}_{t+1}\})$ and $Var( \pi_{t}) = Var( \pi_{t+1})$, the variance of $\tilde{y}_{t}$ and $\pi_{t}$ satisfy:
+%\begin{gather}
+%Var(\tilde{y}_{t}) =  (\sigma\Omega)^2 Var(\tilde{y}_{t})+ [(1-\beta\phi_{\pi} )\Omega]^2 Var( \pi_{t})+[\Omega(\psi^{n}_{ya}[\sigma(1-\rho_{a})+\phi_{y}])]^2Var(a_{t})\\
+%Var( \pi_{t})= ( \kappa\sigma\Omega)^2 Var(\tilde{y}_{t})  + [(\kappa+\beta(\sigma+\phi_y))\Omega]^2 Var( \pi_{t})+[\Omega\kappa(\psi^{n}_{ya}[\sigma(1-\rho_{a})+\phi_{y}])]^2Var(a_{t})
+%\end{gather}
+Use Matlab , we can easily solve the system:
+\begin{gather*}
+ var(\tilde{y}_{t}) =  1.5645\times 10^{-5} \\
+ var( \pi_{t}) =1.5324\times 10^{-4}\\
+\left[
+\begin{array}{c}
+Var(\tilde{y}_{t}) \\
+ Var( \pi_{t})
+\end{array}
+\right] = \left[
+\begin{array}{c}
+ 1.5645\times 10^{-5} \\
+1.5324\times 10^{-4}
+\end{array}
+\right]
+  \end{gather*}
+\newpage
+\subsection{Compute the average welfare loss per period.} %% Problem 4
+\textbf{A.N.S:}The average welfare loss per period in terms of variations of output gap and inflation is:
+\begin{equation}
+L = \frac{1}{2}\big[ (\sigma+\frac{\varphi+\alpha}{1-\alpha})Var(\tilde{y}_{t})+\frac{\varepsilon}{\lambda} Var( \pi_{t})\big]\label{eq9}
+\end{equation}
+Substituting $Var(\tilde{y}_{t})$ and $Var( \pi_{t})$ into  equation (\ref{eq9}), we can solve the welfare loss:
+\begin{equation*}
+L = 0.0041
+\end{equation*}
+
+\subsection{Vary the values of policy reaction parameters and generate a table as follows, and fill the blank entries:}
+\textbf{A.N.S:} Repeated the problem 1.3,1.4 procedure with respect to the given $\phi_{\pi}$ and  $\phi_{y}$. 
+{\centering
+\begin{table}[h]
+\centering
+\begin{tabular}{lllll}
+\hline
+ & \multicolumn{4}{l}{Taylor Rule} \\ \hline
+$\phi_{\pi}$ &    \textbf{1.5}    &  \textbf{1.5}      & \textbf{1.5}      &  \textbf{5}     \\
+ $\phi_{y}$&    \textbf{1 }   &   \textbf{0.125}     &   \textbf{0}    & \textbf{ 0}     \\
+ $\sigma(\tilde{y})$&   $3.6408 \times 10^{-5}$   &  $3.0547\times 10^{-6}$      &  $6.8208\times 10^{-7}$     & $1.5955\times 10^{-8}$      \\ 
+ $\sigma(\pi)$&   $3.5662 \times 10^{-4}$    &  $2.9921  \times 10^{-5}$      &  $6.6810\times 10^{-6} $  & $1.5628\times 10^{-7}$       \\ 
+  $\sigma(L)$&   $0.0095$  &     $7.9396 \times 10^{-4}$    &   $1.7728\times 10^{-4}$     &  $4.1469\times 10^{-6}$    \\   \hline
+\end{tabular}
+\end{table}}
+\newpage
+\section{Part II.  A Money Growth Rule.}  %% PART 2
+\subsection{Compute $\hat{r}_t^n$ and  $\hat{y}_t^n$ }
+From Chapter 3 Gali(2008) \footnote{Gali, Jordi. Monetary Policy, inflation, and the Business Cycle: An introduction to the new Keynesian Framework. Princeton University Press, 2008.}, we know the following relations:
+\begin{gather}
+ \hat{y}_t^n = \psi_{ya}^n a_t\\
+ \hat{r}_t^n = -\sigma\psi_{ya}^n(1-\rho_{a})a_t
+\end{gather}
+where $\psi_{ya}^n =\frac{(1+\varphi)}{\varphi+\alpha+\sigma(1-\alpha)} $.
+Hence, we have:
+\begin{gather}
+  var(\hat{y}_t^n) =  (\psi_{ya}^n)^2 var(a_t) =  2.6681\times 10^{-4}\\
+  var(\hat{r}_t^n) = [\sigma\psi_{ya}^n(1-\rho_{a})]^2  var(a_t) = 2.6681\times 10^{-6}
+\end{gather}
+\subsection{ Compute $var(\Delta\zeta_t)$}
+Since the  exogenous money demand shock$\zeta_t$ is an AR(1) process,
+\begin{equation}
+var(\Delta\zeta_t) = \frac{\sigma(\zeta)}{1-\rho_{\zeta}^2} = 6.2016\times 10^{-5}
+\end{equation}
+
+\subsection{Show how to compute $\big[ var(\tilde{y}_t)\quad var(\pi_t) \quad var(\Delta\zeta_t) \big]'$}
+Following page 56 of Gali(2008),  we know:
+\begin{equation*}
+A_{M,0}\equiv\left[
+\begin{array}{ccc}
+ 1+\sigma\eta & 0  & 0  \\
+  -\kappa& 1  & 0   \\
+  0 & -1  &  1  
+\end{array}
+\right], \quad 
+A_{M,1}\equiv\left[
+\begin{array}{ccc}
+ \sigma\eta & \eta  & 1  \\
+  0& \beta  & 0   \\
+  0 & 0  &  1  
+\end{array}
+\right], \quad 
+B_{M}\equiv\left[
+\begin{array}{ccc}
+ \eta & -1 & 0  \\
+ 0& 0  & 0   \\
+  0 & 0 &  -1  
+\end{array}
+\right]
+\end{equation*}
+Split the linear matrix equation into a three equations system, we have:
+\begin{gather}
+ (1+\sigma\eta)\tilde{y}_{t} = \sigma\eta E_{t}(\tilde{y}_{t+1})+\hat{l}_{t}^{+}+\eta\hat{r_{t}}^{n} - \hat{y_{t}}^{n}\\
+ -\kappa\tilde{y}_{t} + \pi_{t} = \beta E_{t}(\pi_{t+1})\\
+ - \pi_{t} +\hat{l}_{t-1}^{+} = \hat{l_{t}}^{+} - \Delta\zeta_{t} \label{eq16}
+\end{gather}
+Taking expectation w.r.t equation (\ref{eq16}) and rearranging the equation we have,
+\begin{equation}
+ \hat{l_{t}}^{+} = E_{t}(\pi_{t+1})+E_{t}( \hat{l}_{t+1}^{+})-\rho_{\zeta} \Delta\zeta_{t}
+\end{equation}
+Equations (14), (15) and (17)  can be summarized compactly by the system:
+
+\begin{equation}
+\left[
+\begin{array}{ccc}
+ 1+\sigma\eta & 0  & 0  \\
+  -\kappa& 1  & 0   \\
+  0 & 0  &  1  
+\end{array}
+\right]
+\left[
+\begin{array}{c}
+\tilde{y}_{t}\\
+\pi_{t}\\
+\hat{l_{t}}^{+}
+\end{array}
+\right]=
+\left[
+\begin{array}{ccc}
+ \sigma\eta & \eta  & 1  \\
+  0& \beta  & 0   \\
+  0 & 1  &  1  
+\end{array}
+\right]
+\left[
+\begin{array}{c}
+E_{t}(\tilde{y}_{t+1})\\
+E_{t}(\pi_{t+2})\\
+E_{t}(\hat{l}_{t+1}^{+})
+\end{array}
+\right]
++ 
+\left[
+\begin{array}{cc}
+ -1.4 & -0.6 \\
+  0 & 0   \\
+  0 & -0.6
+\end{array}
+\right]
+\left[
+\begin{array}{ccc}
+ a_t    \\
+   \Delta\zeta_{t} \\  
+\end{array}
+\right]
+\end{equation}
+
+Denote
+ \begin{equation}
+A \left[
+\begin{array}{c}
+\tilde{y}_{t}\\
+\pi_{t}\\
+\hat{l_{t}}^{+}
+\end{array}
+\right]=B\left[
+\begin{array}{c}
+E_{t}(\tilde{y}_{t+1})\\
+E_{t}(\pi_{t+2})\\
+E_{t}(\hat{l}_{t+1}^{+})
+\end{array}
+\right]+C\left[
+\begin{array}{c}
+ a_t    \\
+   \Delta\zeta_{t} \\  
+\end{array}
+\right]
+\end{equation}
+Solve the system, we get 
+\begin{equation}
+\left[
+\begin{array}{c}
+\tilde{y}_{t}\\
+\pi_{t}\\
+\hat{l_{t}}^{+}
+\end{array}
+\right]=D \left[
+\begin{array}{c}
+ a_t    \\
+   \Delta\zeta_{t} \\  
+\end{array}
+\right]
+\end{equation}
+Substituting the known parameters we can solve,
+ \begin{equation}
+D =
+\left[
+\begin{array}{cc}
+  0.10496 & 0.28902   \\
+ 0.12277 &    0.5773 \\
+  1.105&   −0.63406  
+\end{array}
+\right]
+\end{equation}
+We have
+ \begin{gather}
+ var(\tilde{y}_{t}) = D(1,1)^2 var(a_t) + D(1,2)^2 var( \Delta\zeta_{t})\\
+ var(\pi_{t}) = D(2,1)^2 var(a_t) + D(2,2)^2 var( \Delta\zeta_{t})
+\end{gather}
+
+\subsection{Compute the values of $\big[ var(\tilde{y}_t)\quad var(\pi_t) \quad var(\Delta\zeta_t) \big]'$ }
+Substituting the known parameters into equation (22) an (23), we find:
+\begin{equation*}
+\begin{aligned}
+var(\tilde{y}_{t}) = 8.1197 \times 10^{-6}\\
+var(\pi_{t}) = 2.469 \times 10^{-5}\\
+\end{aligned}
+\end{equation*}
+\subsection{Compute the average welfare loss per period.}
+Frome equation (8), we find 
+L = 0.0075
+\newpage
+
+\section{Figure}
+
+\begin{figure}
+\centering
+   \includegraphics[height=5cm, width=10cm]{img/doge.jpg}
+  \caption{Doge}
+  \label{fig:stock}
+\end{figure}
+
+
+
+\section{Codes}
+
+\subsection{Codes for Part I}
+\begin{verbatim}
+%% ps6I_par.m This file stores the given parameter value.
+beta = .99;
+sigma = 1;
+phi = 1;
+alpha = 1/3;
+epsilon = 6;
+theta = 2/3;
+phi_pi = 1.5;
+phi_y = 0.5; % change this value to obtain various outcome
+rho_v = 0.5;
+rho_a = 0.9;
+
+var_a = 0.00712^2/(1-0.9^2)
+ps6_go
+
+%% ps6I_go.m  This file undergo the procedure to calculate the value required
+%Caculating parameters 
+phi_ya_n=(1+phi)/(phi+alpha+sigma*(1-alpha));
+kappa=(sigma+(phi+alpha)/(1-alpha))*(1-theta)*(1-beta*theta)/theta*(1-alpha)/(1-alpha+alpha*epsilon);
+kappa = lambda*(sigma+(phi+alpha)/(1-alpha));
+Omega = 1/(sigma+phi_y+kappa*phi_pi)
+AT = [sigma*Omega, (1-beta*phi_pi)*Omega; (kappa*sigma)*Omega, (kappa+beta*(sigma+phi_y))*Omega]
+BT = [1*Omega; kappa*Omega]
+residual_par = -psi_nya*(sigma*(1-rho_a)+phi_y);
+BT_tilde = [-psi_nya*(sigma*(1-rho_a)+phi_y)*Omega; -kappa*psi_nya*(sigma*(1-rho_a)+phi_y)*Omega]
+I = eye(2);
+C = (I - rho_a*AT)^(-1)*BT_tilde
+var_y = C(1)^2*var_a
+var_pi = C(2)^2*var_a
+WL = 0.5*((sigma+((phi+alpha)/(1-alpha)))*var_y + (epsilon/lambda)*var_pi)
+\end{verbatim}
+
+\subsection{Codes for Part II}
+\begin{verbatim}
+%% ps6II_par.m This file stores the given parameter value.
+beta = .99;
+sigma = 1;
+phi = 1;
+alpha = 1/3;
+epsilon = 6;
+theta = 2/3;
+phi_pi = 1.5;
+phi_y = 0.5; % change this value to obtain various outcome
+rho_v = 0.5;
+rho_a = 0.9;
+
+var_zeta = var_zetaepsilon^2/(1-rho_zeta^2)
+var_a = 0.00712^2/(1-0.9^2)
+ps6_go
+
+%% ps6II_go.m  This file undergo the procedure to calculate the value required
+%Caculating parameters 
+
+var_ny = (psi_nya)^2*var_a
+var_nr = (sigma*psi_nya*(1-rho_a))^2*var_a
+
+phi_ya_n=(1+phi)/(phi+alpha+sigma*(1-alpha));
+kappa=(sigma+(phi+alpha)/(1-alpha))*(1-theta)*(1-beta*theta)/theta*(1-alpha)/(1-alpha+alpha*epsilon);
+kappa = lambda*(sigma+(phi+alpha)/(1-alpha));
+Omega = 1/(sigma+phi_y+kappa*phi_pi)
+AM0=[1+sigma*eta  0  0  
+  kappa 1  0   
+  0  0   1  ]
+  AM1 =[sigma*eta  eta   1  
+  0 beta  0   
+  0  0   1  ]
+ BM = [ eta  -1  0  
+ 0 0   0   
+  0 0  -1  ]
+  
+  A = 1+sigma*eta  0  0  
+ - kappa 1  0   
+  0  -1  1  ]
+  B= [sigma*eta  eta   1  
+  0 beta  0   
+  0  1   1  ]
+  C= [-1.4  -0.6 
+          0  0   
+         0  -0.6]     
+ D = [  0.10496 0.28902 
+ 0.12277 0.5773 
+1.105 0.63406]
+var_y = D(1,1)^2*var_a+ D(1,1)^2*var_zeta
+var_pi = D(2,1)^2*var_a + D(2,2)^2*var_zeta
+ 
+WL = 0.5*((sigma+((phi+alpha)/(1-alpha)))*var_y + (epsilon/lambda)*var_pi)
+
+\end{verbatim}
+
+
+\end{document}
