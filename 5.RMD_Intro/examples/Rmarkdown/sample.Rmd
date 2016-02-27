@@ -1,0 +1,55 @@
+---
+title: "测试"
+author: "石长顺"
+date: "2016/2/25"
+output: 
+  pdf_document:
+    keep_tex: yes
+    latex_engine: xelatex
+    number_sections: yes
+    toc: yes
+documentclass: article
+header-includes:
+- \usepackage{xeCJK}
+- \usepackage{verbatim}
+- \usepackage{graphicx}
+---
+
+
+# 介绍
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+\newpage
+
+# R Chunks
+
+## R Code
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+summary(cars)
+```
+
+## Plot
+
+
+You can also embed plots, for example:
+
+```{r, echo=FALSE}
+plot(cars)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+\newpage
+
+# 绕口令
+
+## 八百标
+
+八百标兵奔北坡，
+炮兵并排北边跑，
+炮兵怕把标兵碰，
+标兵怕碰炮兵炮

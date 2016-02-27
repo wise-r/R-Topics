@@ -1,0 +1,126 @@
+---
+title: "第一次专题班练习"
+author: "yphuang"
+date: "2015年12月1日"
+output: html_document
+---
+
+# 〇.说明
+
+## 练习的目的
+
+- 温习前面一段时间所分享的知识点
+- 自主学习相关的其他辅助扩展包
+
+## 提交时间和提交方式
+
+- 提交时间：
+    2015年12月14日之前
+- 提交方式：
+    + 通过发送邮件至：xmuwiserclub@163.com
+    + 文件命名：姓名+年级
+
+- 提交文件
+    + R Markdown文件
+    + 及R Markdown文件knit后的html报告(显示代码和结果)
+
+
+***
+
+# 二.成绩单统计分析
+
+
+## 题目要求
+
+- 从网址:<http://www.ats.ucla.edu/stat/r/faq/hsb2.csv>在线下载一个成绩单
+- 对每位同学的总分进行计算
+- 对男生和女生进行分组计算各科成绩平均分
+- 使用分面条形图对比分析男女生各科成绩平均分的差异，分面变量为科目
+
+
+## 考察知识
+
+- 读取在线数据
+- `reshape2`的使用
+- `plyr`或`dplyr`的使用
+- `ggplot2`的使用
+
+
+
+***
+
+
+
+# 二.我国环保重点城市`PM2.5`可视化分析
+
+## 题目要求
+
+- 文件合并
+    + 将数据集`2013年我国环保重点城市空气质量情况.csv`和`China.Cities.Location.Win.csv`按城市名进行合并
+
+- 使用`library(ggmap)`进行`PM2.5`可视化分析
+    + 城市用点图来绘制
+    + 点的大小用`PM2.5`的数值进行填充
+    + 在相应的经纬度添加城市的文字标签
+
+
+## 考察知识
+
+- 字符处理函数的使用
+- 数据集的横向合并
+- `ggmap`的使用
+- `ggplot2`的使用
+
+
+## 参考资料
+
+- 关于`ggmap`
+    + [ggmap: Spatial Visualization with ggplot2 - The R Journal](https://journal.r-project.org/archive/2013-1/kahle-wickham.pdf)
+
+
+
+***
+
+
+# 三.时间序列数据分析(可选)
+
+## 题目要求
+
+1. 使用`library(quantmod)`下载如下股票的数据：
+    + 2010-01-01至最新数据的上证指数(`000001.ss`)
+    + 2010-02-01至最新数据的鹿港科技(`601599.ss`)
+    + 要求先定义函数，再使用循环同时完成下载，并保存至本地
+    
+2. 使用`ggplot2`和`ggfortify`将这两只股票的走势图绘制在同一幅图中：
+    + 以股票名称为分面
+    + 绘制股票与指数的收盘价对比
+    
+3. 使用`library(dygraphs)`实现第2题，其中，用两个y轴来实现不同标度的展现。
+
+    
+
+## 考察知识
+
+- `quantmod`的基本使用
+- 自定义函数
+- 数据集的合并
+- `lapply()`的使用
+- `ggplot2`的使用
+- `ggfortify`的使用
+- `dygraphs`的使用
+
+
+
+## 参考资料
+
+- 关于`quantmod`
+    + <http://www.quantmod.com/>
+    
+- 关于`ggfortify`
+    + <http://rpubs.com/sinhrks/plot_ts>
+  
+- 关于`dygraphs`
+    + <https://rstudio.github.io/dygraphs/>
+
+
+***

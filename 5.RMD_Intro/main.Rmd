@@ -1,0 +1,554 @@
+---
+title: "Introdution to Rmarkdown"
+author: "石长顺"
+date: "Mar 1st, 2016"
+output:
+  beamer_presentation:
+    fonttheme: serif
+    highlight: tango
+    pandoc_args: --latex-engine=xelatex
+    slide_level: 2
+    theme: CambridgeUS
+    toc: yes
+institution: WISE
+header-includes:
+- \usepackage{xeCJK}
+- \usepackage{amsfonts}
+- \usepackage{mathtools}
+- \usepackage{verbatim}
+- \usepackage{graphicx}
+---
+
+#  \LaTeX 简介
+
+
+## \LaTeX 是什么
+
+> \LaTeX 是一种排版系统，它非常适用于生成高印刷质量的科技和数学类文档。非“所见即所得”（WYSIWYG）
+
++ \TeX: Donald E. Knuth.
+
++ \LaTeX: Leslie Lamport
+
+
+
+## 为什么要学习\LaTeX?  
+
+1. 提供专业级的排版设计，使你的文档看起来如同印刷好的一样。
+
+2. 可以更方便地排版数学公式。
+
+3. 可以很容易的生成脚注、索引、目录和参考文献等复杂的结构。
+
+4. 跨平台(?)
+
+5. 学术期刊或老师的要求
+
+
+## 为什么不用\LaTeX
+
+1. 学习曲线陡峭。
+
+2. 实现个性化排版困难
+
+3. 没有需求
+
+## 长这个样子。。
+
+```latex
+\documentclass[a4paper,12pt]{article}
+%可选的主要有三种, article, book, report.扩展的有beamer， moderncv
+\usepackage{amsmath} % 调用包
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage[body={16cm,24cm}, top=3cm]{geometry}
+\begin{document}
+Hello \LaTeX
+Production function：
+$$Y = AK^{\alpha}L^{1-\alpha}$$
+\end{document}
+```
+ Hello \LaTeX
+$$
+Y = AK^{\alpha}L^{1-\alpha}
+$$
+
+
+## \LaTeX 语法: 篇章结构
+
+```latex
+\tableofcontents
+\part{\LaTeX}
+
+\chapter{Introduction}
+This chapter's content...
+
+\section{Structure}
+This section's content...
+
+\subsection{Top Matter}
+This subsection's content...
+
+\subsubsection{Article Information}
+This subsubsection's content...
+```
+
+
+##  数学环境
+
+1. 行内公式（Inline）
+
+```latex
+Einsten's $E = MC^2$
+```
+Einsten's $E = MC^2$
+
+2. 独立公式(Displayed)
+
+```latex
+\[E = MC^2\]
+```
+\[E = MC^2\]
+
+## 数学环境(Cont'd)
+
+3. 编号公式(Displayed and numbered)
+
+```latex
+\begin{equation}
+E = MC^2
+\end{equation}
+```
+\begin{equation}
+E = MC^2
+\end{equation}
+
+## 数学字符
+
+$x^2, x_2^2, \alpha, \aleph, \Re$, 
+$$\int_b^a f(x)\mathrm{d}x$$
+
+**See More**
+
+1. <https://en.wikibooks.org/wiki/LaTeX/Mathematics#List_of_Mathematical_Symbols>
+
+2. <http://library.caltech.edu/etd/symbols-a4.pdf>
+
+## 列举(List)
+
+1. 无序列表
+
+```latex
+\begin{item} 
+\item C++
+\item Python
+\item Java
+\end{item}
+```
+\begin{itemize} 
+\item C++
+\item Python
+\item Java
+\end{itemize}
+
+## Syntax of \LaTeX: 列举
+
+2. 有序列表
+
+```latex
+\begin{enumerate} 
+\item C++
+\item Python
+\item Java
+\end{enumerate}
+```
+
+\begin{enumerate}
+\item C++
+\item Python
+\item Java
+\end{enumerate}
+
+
+## 插图
+
+```latex
+\begin{figure}
+\centering
+   \includegraphics[height=5cm, width=10cm]{img/doge.jpg}
+  \caption{Doge}
+  \label{fig:doge}
+\end{figure}
+```
+## 插图(Cont'd)
+
+\begin{figure}
+\centering
+   \includegraphics[height=5cm, width=10cm]{img/doge.jpg}
+  \caption{Doge}
+  \label{fig:doge}
+\end{figure}
+
+## 表格
+
+```latex
+\begin{table}[h]
+\centering
+\begin{tabular}{l|llll}
+\hline
+ & \multicolumn{4}{l}{Taylor Rule} \\ \hline
+$\phi_{\pi}$ &    \textbf{1.5}    &  \textbf{1.5}      & \textbf{1.5}      &  \textbf{5}     \\
+ $\phi_{y}$&    \textbf{1 }   &   \textbf{0.125}     &   \textbf{0}    & \textbf{ 0}     \\
+ $\sigma(\tilde{y})$&   $3.6408 \times 10^{-5}$   &  $3.0547\times 10^{-6}$      &  $6.8208\times 10^{-7}$     & $1.5955\times 10^{-8}$      \\ 
+ $\sigma(\pi)$&   $3.5662 \times 10^{-4}$    &  $2.9921  \times 10^{-5}$      &  $6.6810\times 10^{-6} $  & $1.5628\times 10^{-7}$       \\ 
+  $\sigma(L)$&   $0.0095$  &     $7.9396 \times 10^{-4}$    &   $1.7728\times 10^{-4}$     &  $4.1469\times 10^{-6}$    \\   \hline
+\end{tabular}
+\caption{Table}
+\end{table}
+```
+
+
+## 表格(Cont'd)
+
+\begin{table}[h]
+\centering
+\begin{tabular}{l|llll}
+\hline
+ & \multicolumn{4}{l}{Taylor Rule} \\ \hline
+$\phi_{\pi}$ &    \textbf{1.5}    &  \textbf{1.5}      & \textbf{1.5}      &  \textbf{5}     \\
+ $\phi_{y}$&    \textbf{1 }   &   \textbf{0.125}     &   \textbf{0}    & \textbf{ 0}     \\
+ $\sigma(\tilde{y})$&   $3.6408 \times 10^{-5}$   &  $3.0547\times 10^{-6}$      &  $6.8208\times 10^{-7}$     & $1.5955\times 10^{-8}$      \\ 
+ $\sigma(\pi)$&   $3.5662 \times 10^{-4}$    &  $2.9921  \times 10^{-5}$      &  $6.6810\times 10^{-6} $  & $1.5628\times 10^{-7}$       \\ 
+  $\sigma(L)$&   $0.0095$  &     $7.9396 \times 10^{-4}$    &   $1.7728\times 10^{-4}$     &  $4.1469\times 10^{-6}$    \\   \hline
+\end{tabular}
+\caption{Table}
+\end{table}
+
+## 参考文献
+
+See Example
+
+##  中文支持
+
+1. `ctex`系列文档类型 
+
+2. `xeCJK`扩展包
+
+## \LaTeX 教程
+
+1. [LaTeX note by Alpha Huang](http://www.dralpha.com/zh/tech/lnotes2.pdf)
+
+2. [lshort by Tobias Oetiker](https://tobi.oetiker.ch/lshort/lshort.pdf)
+
+3. [LaTeX入门 by 刘海洋](http://www.amazon.cn/dp/B00D1APK0G/)
+
+4. [LaTeXRefCard](https://www.math.brown.edu/~jhs/ReferenceCards/LaTeXRefCard.v2.0.pdf)
+
+
+#  `Markdown`简介
+
+##  `Markdown`是什么
+
+> **Markdown**  是一种轻量级的**标记语言**,它用简洁的语法代替排版，使我们专心于码字 
+
+
+
+## 基本`Markdown`语法
+
+1. 标题
+
+  * `#...` 1-6个`#`代表n级标题
+
+2. 字体样式
+  + `_italic_` 斜体 _italic_
+
+  + `**bold**` 粗体 **bold**
+
+  + `~~delete~~` 删除线 ~~delete~~
+
+<http://markdowntutorial.com/>
+
+## 基本`Markdown`语法
+
+3. 无序列表
+
+```latex
+* C++
+* Python
+* Java
+```
+* C++
+* Python
+* Java
+
+
+## 基本`Markdown`语法
+
+4. 无序列表
+
+```latex
+1. C++
+2. Python
+3. Java
+```
+
+1. C++  
+2. Python  
+3. Java  
+
+## 基本`Markdown`语法
+
+5. 链接
+
+* `[link](http://example.com)`
+
+[link](http://example.com).
+
+* `<http://example.com>`
+
+<http://example.com>
+
+## 基本`Markdown`语法
+
+6. `![mdlogo](img/mdlogo.png)`
+
+![mdlogo](img/mdlogo.png)
+
+## 基本`Markdown`语法
+
+```latex
+First Header  | Second Header
+------------- | -------------
+Content Cell  | Content Cell
+Content Cell  | Content Cell
+```
+
+First Header  | Second Header
+------------- | -------------
+Content Cell  | Content Cell
+Content Cell  | Content Cell
+
+## Markdown 编辑器
+
+
+
+1. Mac： [Mou](http://25.io/mou/), [Byword](https://bywordapp.com/)...
+
+2. Windows: [MarkdownPad](http://www.markdownpad.com/) 
+
+3. Web: [Cmd Markdown](https://www.zybuluo.com/mdeditor), [简书](http://www.jianshu.com/), [Stack edit](https://stackedit.io/)
+
+
+
+
+
+# Rmarkdown 
+
+## 问题
+
+> 如何把R的处理结果写进你的Report？
+
+##
+
+![CV](img/ctr_c.png)
+
+## `Rmarkdown` 简介
+
+> R Markdown is a format for writing reproducible, dynamic reports with R.
+> R Markdown 是用来写包含R代码的可重复性，动态报告的一种文件格式。
+> Use it to embed R code and results into slideshows, pdfs, html documents, Word files and more.
+> 使用`Rmd`我们能够将`R`代码及结果嵌入slides，pdf, html文档甚至word文档。
+
+\begin{figure}
+\centering
+   \includegraphics[height=5cm, width=5cm]{img/RMarkdownOutputFormats.png}
+  \caption{RMarkdownOutputFormats}
+  \label{fig:Out}
+\end{figure}
+
+## R Markdown 基础
+
+1. 所有Markdown的语法在Rmd文件里同样适用，
+
+2. 输入公式。 支持 \LaTeX 公式。
+
+* Inline
+
+```latex
+Einsten's $E = MC^2$
+```
+Einsten's $E = MC^2$
+
+* Displayed equation
+
+`$$Y = X\beta + \varepsilon$$` $$Y = X\beta + \varepsilon$$
+
+
+
+## R代码及结果
+
+3. `R` 代码
+* 代码模块
+
+```{r}
+dim(women)
+fit <- lm(weight~height, data = women)
+```
+
+* 行内`R`代码
+
+the intercept is `r coef(fit)[[1]]`  
+the coeffient of height is `r coef(fit)[[2]]`
+
+
+## R代码及结果
+
+1. 修改`echo=TRUE`参数显示或者不显示**代码**
+
+```{r, echo=FALSE}
+with(plot(height, weight), data = women)
+```
+
+## R代码及结果
+
+2. 修改`eval=TRUE`参数显示或者不显示**输出结果**
+
+```{r, eval=FALSE}
+with(plot(height, weight), data = women)
+```
+
+
+## R代码及结果
+
+
+```{r,  fig.width=6, fig.height=3, echo=FALSE}
+with(plot(height, weight), data = women)
+```
+
+See more <http://rmarkdown.rstudio.com/authoring_rcodechunks.html>
+
+## 生成文档
+
+1. html文档
+
+2. word文档 
+
+<http://rmarkdown.rstudio.com/articles_docx.html>
+
+3. pdf 文档
+
+
+## More \LaTeX (PDF options)
+
+1. 在文档头添加`output: pdf_document`参数，或者选择`Knit PDF`按钮会生成Pdf文档(需要安装TeX套件)
+
+2. 定义documentclass文档头添加 `documentclass: article`
+
+3. 设置自动目录  
+```
+output:
+  pdf_document:
+    toc: true
+    toc_depth: 2
+```
+
+## More \LaTeX (PDF options)
+
+5. 加载 \LaTeX 包
+
+```
+header-includes:
+- \usepackage{amsfonts}
+- \usepackage{mathtools}
+- \usepackage{verbatim}
+```
+
+6. 支持中文
+
+```
+output:
+  pdf_document:
+    latex_engine: xelatex
+header-includes:
+- \usepackage{xeCJK}
+```
+
+6. 保留 \LaTeX 代码`pdf_document:`添加`keep_tex: true`
+
+
+# 应用
+
+## 文档模板
+
+\begin{figure}
+\centering
+   \includegraphics{img/template.png}
+  \label{fig:template}
+\end{figure}
+
+see <http://rmarkdown.rstudio.com/developer_document_templates.html>
+
+## rticles包
+
+rtiles是RStudio出品的一个package，rticles包含`ACM`, `R journal`, `Ctex(中文)`, `JSS`等若干个模板。期中`CTEX`模板是**谢益辉**， **邱怡轩**等人写的。 
+
+```{r}
+# install.packages("rticles") # if not installed
+```
+
+
+
+## Slides
+
+Rmarkdown 提供了三种格式的slides版式，分别是：
+
+1. [ioslides](http://rmarkdown.rstudio.com/ioslides_presentation_format.html)
+
+2. [slidy](http://rmarkdown.rstudio.com/slidy_presentation_format.html)
+
+3. [Beamer](http://rmarkdown.rstudio.com/beamer_presentation_format.html)
+
+## Shiny 
+
+See <http://shiny.rstudio.com/>
+
+## R Markdown Resource
+
+1. <http://rmarkdown.rstudio.com/>
+
+2. <http://yihui.name/knitr/>
+
+3. <https://github.com/yihui/knitr-examples>
+
+4. [R Markdown Cheatsheat](https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-chinese.pdf)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
